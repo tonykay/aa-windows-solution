@@ -1,0 +1,10 @@
+---
+- name: Add Active Directory users to existing domain
+  hosts: windows
+  gather_facts: false
+
+  vars_files:
+    - ../vars/ad_user_vars.yml
+
+  roles:
+    - win_ad_user

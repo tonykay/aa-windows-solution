@@ -1,0 +1,24 @@
+---
+- name: Create windows domain group
+  win_domain_group:
+    state:  "{{ group.state | default('present') }}"
+    name:   "{{ group.group_name }}"
+    scope:  "{{ group.group_scope }}"
+  loop:     "{{ user_info }}"
+  loop_control:
+    loop_var: group
+
+- name: Create AD Users
+  win_domain_user:
+    state:      "{{ user.state | default('present') }}"
+    name:       "{{ user.name }}"
+    firstname:  "{{ user.firstname }}"
+    surname:    "{{ user.surname }}"
+    password:   "{{ user.password }}"
+    groups:     "{{ user.group_name }}"
+    email:      '"{{ user.name }}"@ad1."{{ GUID }}".example.opentlc.com'
+  loop:       "{{ user_info }}"
+  loop_control:
+    loop_var: user
+...
+
